@@ -1,4 +1,3 @@
-import { setTimeout } from "timers";
 
 // 箭头函数 特点一.代码精简
 
@@ -23,23 +22,23 @@ const luke = {
   id: 2,
   say: function() {
     setTimeout(function() {
-      console.log('id: ',this.id )
+      console.log('id: ',this.id ) // undefined   正确
     }, 50)
   },
   sayWithThis: function() {
     let that = this
     setTimeout(function() {
-      console.log('This id: ',that.id )
+      console.log('This id: ',that.id ) // 2    正确
     }, 500)
   },
   sayWithArrow: function() {
     setTimeout(() => {
-      console.log('Arrow id: ',this.id )
+      console.log('Arrow id: ',this.id ) //2    正确
     }, 1500)
   },
-  sayWithGlobalArrow: () => {
+  sayWithGlobalArrow: () => {  // 问题解答,因为这个箭头函数在一开始就是了,所以当前的作用域是全局的作用域,而global是没有id的
     setTimeout(() => {
-      console.log('Global Arrow id: ',this.id )
+      console.log('Global Arrow id: ',this.id ) //2  这个错误了这是打印出来undefined
     }, 2000)
   },
 }
@@ -47,4 +46,5 @@ const luke = {
 luke.say()
 luke.sayWithThis()
 luke.sayWithArrow()
-luke.sayWithGlobalArrow()
+luke.sayWithGlobalArrow() // 解:箭头函数中的this指向函数定义的时候所属于的作用域下,而非运行的时候的作用域
+

@@ -4,6 +4,9 @@
   "description": "Koa2 预告片网站",
   "main": "cb-promise.js",
   "scripts": {
+    "build": "rimraf dist && babel src -s -D -d dist --presets env",
+    "dev": "nodemon -w src --exec \"babel-node src --presets env\"",
+    "production": "node dist",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -17,7 +20,14 @@
   },
   "homepage": "https://github.com/zhalice2011/koa#readme",
   "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
     "co": "^4.6.0",
-    "node-fetch": "^1.7.3"
+    "node-fetch": "^1.7.3",
+    "rimraf": "^2.6.2"
+  },
+  "dependencies": {
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-runtime": "^6.26.0"
   }
 }
