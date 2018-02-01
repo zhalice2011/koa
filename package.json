@@ -1,5 +1,5 @@
 {
-  "name": "koa",
+  "name": "koaapp",
   "version": "1.0.0",
   "description": "Koa2 预告片网站",
   "main": "cb-promise.js",
@@ -28,6 +28,7 @@
   },
   "dependencies": {
     "babel-plugin-transform-runtime": "^6.23.0",
-    "babel-runtime": "^6.26.0"
+    "babel-runtime": "^6.26.0",
+    "koa": "^2.4.1"
   }
 }

@@ -4,7 +4,7 @@
       "env",
       {
         "targets": {
-          "node": "current"
+          "node": "current" //表示使用当前的node环境
         }
       }
     ]
