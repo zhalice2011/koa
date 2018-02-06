@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <link href="https://cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.css" rel="stylesheet">
+  
+</head>
+<body>
+  <div class="container">
+    <div class="row"></div>
+    <div class="col-md-8">
+      <h1>Hi Luke</h1>
+      <p>This is dali</p>
+    </div>
+    <div class="col-md-4">
+      <p>测试静态页面</p>
+    </div>
+    <div id="dplayer"></div>
+  </div>
+  <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>  
+  <script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.js"></script>
+  <script>
+      var dp = new DPlayer({
+        container: document.getElementById('dplayer'),
+        autoplay: true,
+        
+        video: {
+            url: 'https://cm.phncdn.com/videos/201307/09/14553002/vl_480_358k_14553002.mp4?a5dcae8e1adc0bdaed975f0d61fb5e05756dc4acc488d2f9e61ef33953093512602c6cb1feb478ca9d8ff527a6e1f0b4d4a65b7d0445eda8e8b2070db2fce87fe977dc2f1997f836dca6bcdc81f94a5f1ef4e6c77c48e10ce7777d522a7331dedb1daccce6540dd059762bc62bd5e18e063814c8ebee4c73a348',
+            type: 'auto',
+        }
+    });
+
+  </script>
+  
+</body>
+</html>

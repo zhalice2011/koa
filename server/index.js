@@ -1,34 +1,21 @@
 const koa = require('koa')
 const logger = require('koa-logger')
 const app = new koa()
-const ejs = require('ejs')
-const pug = require('pug')
-const { Tpl,ejsTpl,pugTpl } = require('./tpl')
+const views = require('koa-views')
+const { resolve } = require('path')
 
-// 1.传入html模板渲染的中间件
 
-// app.use(async(ctx, next) => {
-//   ctx.type = 'text/html; chart="utf-8"'
-//   ctx.body = normal
-// })
 
-// 2.传入ejs模板渲染的中间件
+ 
 
-// app.use(async(ctx, next) => {
-//   ctx.type = 'text/html; chart="utf-8"'
-//   ctx.body = ejs.render(ejsTpl, {
-//     you: 'cherise',
-//     me: 'dali'
-//   })
-// })
-
-// 3.传入ejs模板渲染的中间件
+app.use(views(resolve(__dirname, './views'), {
+  extension: 'pug'
+}))
 
 app.use(async(ctx, next) => {
-  ctx.type = 'text/html; chart="utf-8"'
-  ctx.body = pug.render(pugTpl, {
-    you: 'cherise',
-    me: 'dali'
+  await ctx.render('index', {
+    you: 'Luke',
+    me: 'Scott'
   })
 })
 

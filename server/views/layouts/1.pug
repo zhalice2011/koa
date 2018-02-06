@@ -1,0 +1,34 @@
+  script.
+    //实现播放时视频的功能
+    var player = null
+    $(document).ready(function() {
+      //销毁
+      $('#myModal').on('hidden.bs.modal', function(e) {
+        if (player && player.pause) player.pause() //关闭模态框的时候把视频暂停
+      })
+
+
+      $('.card-img-top').click(function(e) {
+        var video = $(this).data('video')
+        var image = $(this).attr('src')
+        $("#myModal").show()
+        if (!player) {
+          //创建player
+          player = new DPlayer({
+            container: document.getElementById('videoModal'),
+            screenshot: true,
+            video: {
+              url: video,
+              pic: image,
+              thumbnails: image
+            },
+          })
+        } else {
+          player.swithVideo({
+            url: video,
+            pic: image,
+            type: auto
+          })
+        }
+      })
+    })
