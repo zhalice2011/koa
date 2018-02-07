@@ -14,7 +14,7 @@ const sleep = time => new Promise(resolve => {
   console.log(`Start visit the target page`)
   // 1.配置浏览器参数
   const browser = await puppeteer.launch({
-    headless: false,
+    headless: false, // 可以让他打开网页
     executablePath:'/private/var/folders/0c/r32jpgps1q31hmn8r4lb_r080000gn/T/AppTranslocation/248A0D5F-FA57-48A2-9253-0996D070B2C5/d/Chromium.app/Contents/MacOS/Chromium',
     args: ['--allow-no-sandbox-job'], // --allow-no-sandbox-job:这个标志可以减少的安全沙箱进程和允许他们做某些API调用关闭窗口或访问剪贴板。我们也失去了机会杀死一些过程,直到外拥有他们完成的工作
     dumpio: false // 浏览器是否管过程stdout和stderr进的过程。stdout和process.stderr。默认值为false
@@ -66,7 +66,12 @@ const sleep = time => new Promise(resolve => {
   })
   console.log('result=',result)
   // 7.关闭浏览器
-  //browser.close()
+  browser.close()
+
+  // 发送到这个进程中
+  process.send({result})
+  // 让这个进程退出
+  process.exit(0)
 
 })()
 
