@@ -17,15 +17,15 @@ block content
       .row
         .col-md-6
           .card
-            img.card-img-top(src="http://i2.fuimg.com/562411/2bb5ee9dd6a0c6a3s.jpg",data-video="https://cm.phncdn.com/videos/201307/09/14553002/vl_480_358k_14553002.mp4?a5dcae8e1adc0bdaed975f0d61fb5e05756dc4acc488d2f9e61ef33953093512602c6cb1feb478ca9d8ff527a6e1f0b4d4a65b7d0445eda8e8b2070db2fce87fe977dc2f1997f836dca6bcdc81f94a5f1ef4e6c77c48e10ce7777d522a7331dedb1daccce6540dd059762bc62bd5e18e063814c8ebee4c73a348")
+            img.card-img-top(src="http://i2.fuimg.com/562411/2bb5ee9dd6a0c6a3s.jpg",data-video="https://dm.phncdn.com/videos/201602/28/69764731/171008_2110_480P_600K_69764731.mp4?ttl=1517961548&ri=1228800&rs=712&hash=ac46baae2eb77fa68defd7c2d249572b")
             .card-body
-              h4.card-title 这是电影标题
+              h4#biaoti.card-title 这是电影标题
               p.card-desc 这是电影描述
             .card-footer
               small.text-muted 1天前更新
         .col-md-6
           .card
-            img.card-img-top(src="http://i2.fuimg.com/562411/2bb5ee9dd6a0c6a3s.jpg",data-video="https://ic-68c78600-0d3682-24c3605.d.rncdn3.com/videos/201707/12/124159781/480P_600K_124159781.mp4?ipa=104.199.134.3&rs=99&ri=1000&s=1517869043&e=1517876243&h=101a99d04aa2fea2401a1347bb792161")
+            img.card-img-top(src="http://i2.fuimg.com/562411/2bb5ee9dd6a0c6a3s.jpg",data-video="https://cm.phncdn.com/videos/201703/05/108576702/720P_1500K_108576702.mp4?a5dcae8e1adc0bdaed975f0d67fb5e0527c20903c5bb57a6cad7e6cb50bc41fbb1152c24e90ee001fc80e2affff13edb7e3a2f80a84257f3cc68f29a0fac78498e2a79054ef1f5dbb665a3f0ba61aa0dd6be38014c69ce11c43aa87d17986aa5d5441cda3924f0913dd8eee1e9897bdc3e7ecafe42826806fe146c87")
             .card-body
               h4.card-title 这是电影标题
               p.card-desc 这是电影描述
@@ -33,54 +33,40 @@ block content
               small.text-muted 1天前更新
 
   #myModal.modal.fade.bd-example-modal-lg(tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true")
-    .modal-dialog.modal-lg
-      #videoModal.odal-content
+    .modal-dialog
+      #videoModal.modal-content
+
   include ./includes/script
   script.
     //实现播放时视频的功能
     var player = null
     $(document).ready(function() {
-      //销毁
       $('#myModal').on('hidden.bs.modal', function(e) {
         if (player && player.pause) player.pause() //关闭模态框的时候把视频暂停
       })
-
-
       $('.card-img-top').click(function(e) {
         var video = $(this).data('video')
         var image = $(this).attr('src')
-        console.log('video',video)
-        console.log('image',image)
         $("#myModal").modal('show')
         if (!player) {
-          //创建player
-          //- player = new DPlayer({
-          //-   container: document.getElementById('videoModal'),
-          //-   screenshot: true,
-          //-   video: {
-          //-     url: video,
-          //-     pic: image,
-          //-     thumbnails: image,
-          //-     type: 'auto'
-          //-   },
-          //- })
-
           player = new DPlayer({
               container: document.getElementById('videoModal'),
-              autoplay: true,
+              screenshot: true,
+              autoplay: false,
               video: {
                   url: video,
                   pic: image,
-                  image,
-                  type: 'auto'
+                  thumbnails: image,
               }
           });
         } else {
-          player.switchVideo({
-            url: video,
-            pic: image,
-            type: 'auto'
-          })
+          if (player.video.currentSrc !== video) {
+            player.switchVideo({
+              url: video,
+              pic: image,
+              type: 'auto'
+            })
+          }
         }
       })
     })
