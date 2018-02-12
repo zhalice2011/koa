@@ -22,7 +22,7 @@ const { resolve } = require('path')
   // 监听进程退出
   child.on('exit', code => {
     if (invoked) return
-    invoked = false
+    invoked = true
     
     let err = code === 0 ? null : new Error('exit code' + code)
 
