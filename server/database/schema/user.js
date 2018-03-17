@@ -6,18 +6,18 @@ const MAX_LOGIN_ATTEMPTS = 5  // 最大登录失败次数
 const LOCK_TIME = 2 * 60 * 60 * 1000 // 锁定时间 2个小时
 const Schema = mongoose.Schema
 
-const UserSchema = new Schema({
+const userSchema = new Schema({
   role: {
     type: String,
     default: 'user'
   },
-  username: String,
-  email: String,
-  password: String,
-  hashed_password: String,
-  loginAttempts: {
+  username: String, // 用户名
+  email: String, // 邮箱
+  password: String, // 密码
+  hashed_password: String, // 加密密码
+  loginAttempts: { //用户尝试登录的次数
     type: Number,
-    required: true,
+    required: true, //不能为空
     default: 0
   },
   lockUntil: Number,
@@ -33,12 +33,12 @@ const UserSchema = new Schema({
   }
 })
 // 虚拟字段 这个字段不会存入数据库中  lockUntil是要被锁定到什么时候
-UserSchema.virtual('isLocked').get(function () {
+userSchema.virtual('isLocked').get(function () {
   return !!(this.lockUntil && this.lockUntil > Date.now()) //判断是否锁定时间在这个时间
 })
 
 //数据保存之前的中间件
-userSchema.pre('save', next => {
+userSchema.pre('save', function(next) {
   // 密码是否更改
   if (this.isModified('password')) return  next()
 
@@ -60,7 +60,7 @@ userSchema.pre('save', next => {
   next()
 })
 
-// 给userSchema增加一些静态方法
+// 给userSchema增加一些实例方法 ---- methods
 userSchema.methods = {
   comparePasswordL: (_password, password) => {
     return new Promise((resolve, reject) => {
@@ -106,7 +106,7 @@ userSchema.methods = {
 
 
 
-UserSchema.pre('save', function (next) {
+userSchema.pre('save', function (next) {
   if (this.isNew) {
     this.meta.createdAt = this.meta.updatedAt = Date.now()
   } else {
@@ -116,7 +116,7 @@ UserSchema.pre('save', function (next) {
   next()
 })
 
-UserSchema.pre('save', function (next) {
+userSchema.pre('save', function (next) {
   let user = this
 
   if (!user.isModified('password')) return next()
@@ -133,7 +133,7 @@ UserSchema.pre('save', function (next) {
   })
 })
 
-UserSchema.methods = {
+userSchema.methods = {
   comparePassword: function (_password, password) {
     return new Promise((resolve, reject) => {
       bcrypt.compare(_password, password, function (err, isMatch) {
@@ -142,15 +142,15 @@ UserSchema.methods = {
       })
     })
   },
-
+  // 判断当前用户是否超过登录次数
   incLoginAttempts: function (user) {
     const that = this
 
     return new Promise((resolve, reject) => {
-      if (that.lockUntil && that.lockUntil < Date.now()) {
+      if (that.lockUntil && that.lockUntil < Date.now()) { //如果已经锁定 不过已经过期了
         that.update({
           $set: {
-            loginAttempts: 1
+            loginAttempts: 1  //登录次数
           }, 
           $unset: {
             lockUntil: 1
@@ -168,7 +168,7 @@ UserSchema.methods = {
 
         if (that.loginAttempts + 1 >= MAX_LOGIN_ATTEMPTS && !that.isLocked) {
           updates.$set = {
-            lockUntil: Date.now() + LOCK_TIME
+            lockUntil: Date.now() + LOCK_TIME //设置成当前时间+需要锁定的时间
           }
         }
 
@@ -181,4 +181,4 @@ UserSchema.methods = {
   }
 }
 
-mongoose.model('User', UserSchema)
+mongoose.model('User', userSchema)

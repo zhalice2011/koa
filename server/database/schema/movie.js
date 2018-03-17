@@ -3,10 +3,19 @@ const mongoose = require('mongoose')
 
 const Schema = mongoose.Schema
 
-const Mixed = Schema.Types.Mixed
+const { ObjectId, Mixed } = Schema.Types
 
 const movieSchema = new Schema({
-  doubanId: String,
+  doubanId: {
+    unique:true, // 唯一
+    type:String
+  },
+
+  category:[{
+    type:ObjectId,
+    ref: 'Category' //指向关系
+  }],
+
   rate:Number,  // 豆瓣评分
   title: String, // 标题
   summary: String,
@@ -18,7 +27,7 @@ const movieSchema = new Schema({
   posterKey: String, // 七牛的key
   coverKey: String,
   
-  rawTitle: String,
+  rawTitle: String, //初始的标题
   movieTypes: [String], // 类型
   pubDate: Mixed, //上映日期
   year:Number,  // 上映年份
@@ -36,7 +45,7 @@ const movieSchema = new Schema({
 })
 
 //数据保存之前的中间件
-movieSchema.pre('save', next => {
+movieSchema.pre('save', function(next) {
   if(this.isNew) {
     this.meta.createdAt = this.meta.updatedAt = Date.now()
   } else {

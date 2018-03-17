@@ -1,20 +1,30 @@
+// {
+//   "presets": [
+//     [
+//       "env",
+//       {
+//         "targets": {
+//           "node": "current" //表示使用当前的node环境
+//         }
+//       }
+//     ]
+//   ],
+//   "plugins": [
+//     [
+//       "transform-runtime", {
+//         "polufill": false,
+//         "regenerator": true
+//       }
+//     ]
+//   ]
+// }
+
+
 {
-  "presets": [
-    [
-      "env",
-      {
-        "targets": {
-          "node": "current" //表示使用当前的node环境
-        }
-      }
-    ]
-  ],
+  "presets": ["env", "stage-0", "react"],
   "plugins": [
-    [
-      "transform-runtime", {
-        "polufill": false,
-        "regenerator": true
-      }
-    ]
+    "transform-runtime",
+    "transform-decorators-legacy",
+    "transform-class-properties"
   ]
 }

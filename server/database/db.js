@@ -1,8 +1,17 @@
 const mongoose = require("mongoose")
 const db = 'mongodb://localhost/douban-trailer'  // 定义数据库地址
-
+const glob = require('glob')
+const { resolve } = require('path')
 mongoose.Promise = global.Promise  // 使用nodeJS原生的promise替代mongoose内置的promise
 
+// 暴露所有的schema
+exports.initSchemas = () => {
+  //匹配schema下面所有的js文件
+  glob.sync(resolve(__dirname, './schema', '**/*.js')) //同步拿到所有的js文件  返回的是一个数组
+    .forEach(require)
+}
+
+// 暴露连接函数
 exports.connect = () => {
   let maxConnectTimes = 0 //统计连接的次数
 
